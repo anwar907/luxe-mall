@@ -11,7 +11,7 @@ class _ProdukState extends State<Produk> {
   @override
   void initState() {
     super.initState();
-    futureProduct = fetchProduct();
+    futureProduct = ProductAPI().fetchProduct();
   }
 
   @override

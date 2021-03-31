@@ -44,11 +44,7 @@ class _MainPageState extends State<MainPage> {
               Center(
                 child: HomePages(),
               ),
-              Center(
-                child: Center(
-                  child: Text("Keranjang"),
-                ),
-              ),
+              Center(child: Produk()),
             ],
           )),
           Align(
