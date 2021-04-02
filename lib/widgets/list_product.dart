@@ -7,8 +7,6 @@ class ListPorduct extends StatefulWidget {
 
 class _ListPorductState extends State<ListPorduct> {
   ProductList listProduct = ProductList();
-  bool isLoading = false;
-  String nextPage = "=fakestoreapi.com";
 
   void getProduct() async {
     var result = await ProductAPI().getListProduct();
@@ -16,7 +14,6 @@ class _ListPorductState extends State<ListPorduct> {
     var value = json.decode(result);
     setState(() {
       listProduct = ProductList.fromJson(value);
-      for (int i = 0; i < listProduct.produkList.length; i++) {}
     });
   }
 
@@ -32,6 +29,7 @@ class _ListPorductState extends State<ListPorduct> {
         backgroundColor: Color(0xFFFFFFFF),
         body: ListView.builder(
             shrinkWrap: true,
+            scrollDirection: Axis.vertical,
             itemCount: (listProduct == null ||
                     listProduct.produkList == null ||
                     listProduct.produkList.length == 0)
@@ -39,34 +37,42 @@ class _ListPorductState extends State<ListPorduct> {
                 : listProduct.produkList.length,
             itemBuilder: (context, index) {
               return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => DetailPages()));
+                  },
                   child: Container(
-                height: 140,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: Text("${listProduct.produkList[index].title}"),
-                      subtitle: Text(listProduct.produkList[index].category),
-                      trailing:
-                          Text("Rp.${listProduct.produkList[index].price}"),
-                      leading: Container(
-                        height: 140,
-                        width: 100,
-                        child: Image(
-                            image: NetworkImage(
-                                listProduct.produkList[index].image)),
-                      ),
+                    height: 150,
+                    // color: Colors.yellow,
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: Column(
+                      children: [
+                        ListTile(
+                          contentPadding: EdgeInsets.all(0),
+                          leading: Container(
+                            height: 150,
+                            width: 100,
+                            child: Image(
+                                image: NetworkImage(
+                                    listProduct.produkList[index].image)),
+                          ),
+                          title: Text(
+                            "${listProduct.produkList[index].title}",
+                          ),
+                          subtitle:
+                              Text(listProduct.produkList[index].category),
+                          trailing:
+                              Text("Rp.${listProduct.produkList[index].price}"),
+                        ),
+                        Divider(
+                          indent: 20,
+                          endIndent: 20,
+                          height: 1,
+                          color: Color(0xFFC2912E),
+                        )
+                      ],
                     ),
-                    Divider(
-                      indent: 20,
-                      endIndent: 20,
-                      height: 1,
-                      color: Color(0xFFC2912E),
-                    )
-                  ],
-                ),
-              ));
+                  ));
             }));
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:luxemall/models/category.dart';
 import 'package:luxemall/models/product.dart';
 import 'package:luxemall/services/network.dart';
 
@@ -29,11 +30,20 @@ class ProductAPI {
     return dataProduk;
   }
 
-  Future<dynamic> loadMore() async {
+  Future<dynamic> getDataCart() async {
     Network network = Network('$baseUrl');
-    var dataProduk = await network.loadMore();
+    var dataProduk = await network.getCart();
     return dataProduk;
   }
 
-  
+  Future<Category> category() async {
+    final response =
+        await http.get(Uri.https('fakestoreapi.com', '/products/categories'));
+    print("KATEGORY ${response.body}");
+    if (response.statusCode == 200) {
+      return Category.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load Product');
+    }
+  }
 }

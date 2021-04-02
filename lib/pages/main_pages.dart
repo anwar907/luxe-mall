@@ -42,9 +42,9 @@ class _MainPageState extends State<MainPage> {
             },
             children: [
               Center(
-                child: HomePages(),
+                child: HomePage(),
               ),
-              Center(child: Produk()),
+              Center(child: CartPages()),
             ],
           )),
           Align(
